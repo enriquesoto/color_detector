@@ -3,6 +3,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <vector>
 
 #include "colordetector.h"
 
@@ -15,7 +16,8 @@ class ColorDetectController {
 	ColorDetector *cdetect;
 
 	// The image to be processed
-	cv::Mat image;
+    cv::Mat patternImage;
+    cv::Mat targetImage;
 	cv::Mat result;
 	
   public:
@@ -38,7 +40,7 @@ class ColorDetectController {
 	  }
 
 	  // Sets the color to be detected
-	  void setTargetColor(unsigned char red, unsigned char green, unsigned char blue) {
+      void setTargetColor(unsigned char red, unsigned char green, unsigned char blue) {
 
 		  cdetect->setTargetColor(red,green,blue);
 	  }
@@ -56,24 +58,62 @@ class ColorDetectController {
 	  // Sets the input image. Reads it from file.
 	  bool setInputImage(std::string filename) {
 
-		  image= cv::imread(filename);
+          patternImage= cv::imread(filename);
 
-		  if (!image.data)
+          if (!patternImage.data)
 			  return false;
-		  else
-			  return true;
+          else{
+              setAverageColorPatternImage(patternImage);
+              return true;
+          }
+
 	  }
+
+      bool setTargetImage(std::string filename){
+
+          targetImage= cv::imread(filename);
+
+
+
+          if (!targetImage.data)
+              return false;
+          else
+              return true;
+
+      }
+
+      //getLabAverage
+
+      void setAverageColorPatternImage(const cv::Mat &image){
+
+        cv::Scalar avgPixelIntensity = cv::mean(image);
+
+        int blue= avgPixelIntensity.val[0];
+        int green= avgPixelIntensity.val[1];
+        int red = avgPixelIntensity.val[2];
+
+
+        cdetect->setTargetColor(red,green,blue);
+
+
+      }
 
 	  // Returns the current input image.
-	  const cv::Mat getInputImage() const {
+      const cv::Mat getInputImage() const {
 
-		  return image;
+          return patternImage;
 	  }
+
+      const cv::Mat getTargetImage() const {
+
+          return targetImage;
+
+      }
 
 	  // Performs image processing.
 	  void process() {
 
-		  result= cdetect->process(image);
+          result= cdetect->process(targetImage);
 	  }
 	  
 

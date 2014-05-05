@@ -248,7 +248,7 @@ border: 1px solid #000;</string>
       <property name="title">
        <string>Parámetros</string>
       </property>
-      <widget class="QSlider" name="horizontalSlider">
+      <widget class="QSlider" name="sliderThreshold">
        <property name="geometry">
         <rect>
          <x>10</x>

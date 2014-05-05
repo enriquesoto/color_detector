@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->sliderThreshold->setValue(0);
+    ui->lblthresholdVal->setText(QString("%1").arg(ui->sliderThreshold->value()));
+
 }
 
 MainWindow::~MainWindow()
@@ -49,13 +52,19 @@ void MainWindow::on_bttnLoadImage2_clicked()
         displayMat(img_mat,2);
     }
     //Set Filename
-    ColorDetectController::getInstance()->setInputImage(fileName.toStdString());
+    ColorDetectController::getInstance()->setTargetImage(fileName.toStdString());
 
 }
 
 void MainWindow::on_bttnCompare_clicked()
 {
 
+    ColorDetectController::getInstance()->setColorDistanceThreshold(ui->sliderThreshold->value());
+    ColorDetectController::getInstance()->process();
+
+    cv::Mat resulting = ColorDetectController::getInstance()->getLastResult();
+    if (!resulting.empty())
+        displayMat(resulting,2);
 }
 
 void MainWindow::displayMat(const Mat &image,int numImage)
@@ -112,4 +121,15 @@ QString MainWindow::getFileName(QString path)
     int indexlastof = path.lastIndexOf("/");
     return path.left(indexlastof);
 
+}
+
+void MainWindow::on_sliderThreshold_sliderMoved(int position)
+{
+    ui->lblthresholdVal->setText(QString("%1").arg(position));
+}
+
+
+void MainWindow::on_sliderThreshold_valueChanged(int value)
+{
+    ui->lblthresholdVal->setText(QString("%1").arg(value));
 }
