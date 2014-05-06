@@ -76,7 +76,7 @@ class ColorDetector {
 	  }
 
 	  // Sets the color to be detected
-	  void setTargetColor(unsigned char red, unsigned char green, unsigned char blue) {
+      void setPatternColor(unsigned char red, unsigned char green, unsigned char blue) {
 
 		  cv::Mat tmp(1,1,CV_8UC3);
           tmp.at<cv::Vec3b>(0,0)[0]= blue;
@@ -90,7 +90,7 @@ class ColorDetector {
 	  }
 
 	  // Sets the color to be detected
-	  void setTargetColor(cv::Vec3b color) {
+      void setPatternColor(cv::Vec3b color) {
 
 		  cv::Mat tmp(1,1,CV_8UC3);
           tmp.at<cv::Vec3b>(0,0)= color;
@@ -102,7 +102,7 @@ class ColorDetector {
 	  }
 
 	  // Gets the color to be detected
-	  cv::Vec3b getTargetColor() const {
+      cv::Vec3b getPatternColor() const {
 
 		  return target;
 	  }

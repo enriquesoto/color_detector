@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,8 +34,7 @@ static const uint qt_meta_data_MainWindow[] = {
       12,   11,   11,   11, 0x08,
       39,   11,   11,   11, 0x08,
       67,   11,   11,   11, 0x08,
-     101,   92,   11,   11, 0x08,
-     143,  137,   11,   11, 0x08,
+      98,   92,   11,   11, 0x08,
 
        0        // eod
 };
@@ -43,9 +42,8 @@ static const uint qt_meta_data_MainWindow[] = {
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0on_bttLoadImage1_clicked()\0"
     "on_bttnLoadImage2_clicked()\0"
-    "on_bttnCompare_clicked()\0position\0"
-    "on_sliderThreshold_sliderMoved(int)\0"
-    "value\0on_sliderThreshold_valueChanged(int)\0"
+    "on_bttnCompare_clicked()\0value\0"
+    "on_sliderThreshold_valueChanged(int)\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -57,8 +55,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->on_bttLoadImage1_clicked(); break;
         case 1: _t->on_bttnLoadImage2_clicked(); break;
         case 2: _t->on_bttnCompare_clicked(); break;
-        case 3: _t->on_sliderThreshold_sliderMoved((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 4: _t->on_sliderThreshold_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 3: _t->on_sliderThreshold_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -96,9 +93,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 4;
     }
     return _id;
 }

@@ -64,10 +64,9 @@ public:
     QLabel *label_6;
     QLabel *lblthresholdVal;
     QGridLayout *gridLayout;
-    QVBoxLayout *verticalLayout;
     QLabel *label_3;
+    QLabel *lblDiference;
     QLabel *label_4;
-    QLabel *label_5;
     QPushButton *bttnCompare;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -175,6 +174,7 @@ public:
         groupBox = new QGroupBox(centralWidget);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setMinimumSize(QSize(150, 0));
+        groupBox->setMaximumSize(QSize(16777215, 121));
         radioButton = new QRadioButton(groupBox);
         radioButton->setObjectName(QString::fromUtf8("radioButton"));
         radioButton->setGeometry(QRect(7, 28, 71, 21));
@@ -184,6 +184,7 @@ public:
         groupBox_2 = new QGroupBox(centralWidget);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         groupBox_2->setMinimumSize(QSize(225, 0));
+        groupBox_2->setMaximumSize(QSize(16777215, 121));
         verticalLayout_2 = new QVBoxLayout(groupBox_2);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -209,48 +210,44 @@ public:
         groupBox_3 = new QGroupBox(centralWidget);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
         groupBox_3->setMinimumSize(QSize(220, 0));
+        groupBox_3->setMaximumSize(QSize(16777215, 121));
         sliderThreshold = new QSlider(groupBox_3);
         sliderThreshold->setObjectName(QString::fromUtf8("sliderThreshold"));
         sliderThreshold->setGeometry(QRect(10, 50, 191, 23));
+        sliderThreshold->setMaximum(200);
         sliderThreshold->setOrientation(Qt::Horizontal);
         label_6 = new QLabel(groupBox_3);
         label_6->setObjectName(QString::fromUtf8("label_6"));
-        label_6->setGeometry(QRect(20, 30, 52, 13));
+        label_6->setGeometry(QRect(20, 30, 61, 16));
         lblthresholdVal = new QLabel(groupBox_3);
         lblthresholdVal->setObjectName(QString::fromUtf8("lblthresholdVal"));
-        lblthresholdVal->setGeometry(QRect(90, 30, 52, 13));
+        lblthresholdVal->setGeometry(QRect(150, 30, 31, 16));
 
         gridLayout_3->addWidget(groupBox_3, 1, 2, 1, 1);
 
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QString::fromUtf8("label_3"));
 
-        verticalLayout->addWidget(label_3);
+        gridLayout->addWidget(label_3, 0, 0, 1, 1);
+
+        lblDiference = new QLabel(centralWidget);
+        lblDiference->setObjectName(QString::fromUtf8("lblDiference"));
+
+        gridLayout->addWidget(lblDiference, 0, 1, 1, 1);
 
         label_4 = new QLabel(centralWidget);
         label_4->setObjectName(QString::fromUtf8("label_4"));
 
-        verticalLayout->addWidget(label_4);
-
-        label_5 = new QLabel(centralWidget);
-        label_5->setObjectName(QString::fromUtf8("label_5"));
-
-        verticalLayout->addWidget(label_5);
-
-
-        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
+        gridLayout->addWidget(label_4, 0, 2, 1, 1);
 
         bttnCompare = new QPushButton(centralWidget);
         bttnCompare->setObjectName(QString::fromUtf8("bttnCompare"));
-        bttnCompare->setMinimumSize(QSize(200, 38));
+        bttnCompare->setMinimumSize(QSize(150, 38));
 
-        gridLayout->addWidget(bttnCompare, 0, 1, 1, 1);
+        gridLayout->addWidget(bttnCompare, 1, 0, 1, 3);
 
 
         gridLayout_3->addLayout(gridLayout, 1, 3, 1, 1);
@@ -293,11 +290,12 @@ public:
         radioButton_4->setText(QApplication::translate("MainWindow", "comparaci\303\263n en   espacio \n"
 " de color CIEL*a*b* ", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "Par\303\241metros", 0, QApplication::UnicodeUTF8));
-        label_6->setText(QApplication::translate("MainWindow", "Umbral   :", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("MainWindow", "Distancia :", 0, QApplication::UnicodeUTF8));
         lblthresholdVal->setText(QApplication::translate("MainWindow", "num", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
-        label_4->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
-        label_5->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("MainWindow", "Diferencia en \n"
+" Porcentajes", 0, QApplication::UnicodeUTF8));
+        lblDiference->setText(QApplication::translate("MainWindow", "XD", 0, QApplication::UnicodeUTF8));
+        label_4->setText(QApplication::translate("MainWindow", "%", 0, QApplication::UnicodeUTF8));
         bttnCompare->setText(QApplication::translate("MainWindow", "Comparar", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

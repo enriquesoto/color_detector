@@ -42,10 +42,6 @@ private slots:
 
     void on_bttnCompare_clicked();
 
-    void on_sliderThreshold_sliderMoved(int position);
-
-
-
     void on_sliderThreshold_valueChanged(int value);
 
 private:

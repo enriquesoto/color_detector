@@ -42,13 +42,13 @@ class ColorDetectController {
 	  // Sets the color to be detected
       void setTargetColor(unsigned char red, unsigned char green, unsigned char blue) {
 
-		  cdetect->setTargetColor(red,green,blue);
+          cdetect->setPatternColor(red,green,blue);
 	  }
 
 	  // Gets the color to be detected
 	  void getTargetColor(unsigned char &red, unsigned char &green, unsigned char &blue) const {
 
-		  cv::Vec3b color= cdetect->getTargetColor();
+          cv::Vec3b color= cdetect->getPatternColor();
 
 		  red= color[2];
 		  green= color[1];
@@ -77,12 +77,15 @@ class ColorDetectController {
 
           if (!targetImage.data)
               return false;
-          else
+          else{
+              setAverageColorTargetImage(targetImage);
               return true;
+          }
+
 
       }
 
-      //getLabAverage
+      //setAverageColor from Pattern Image Left Side!
 
       void setAverageColorPatternImage(const cv::Mat &image){
 
@@ -93,7 +96,17 @@ class ColorDetectController {
         int red = avgPixelIntensity.val[2];
 
 
-        cdetect->setTargetColor(red,green,blue);
+        cdetect->setPatternColor(red,green,blue);
+
+
+      }
+
+
+      void setAverageColorTargetImage(const cv::Mat &image){
+          cv::Scalar avgPixelIntensity = cv::mean(image);
+          int blue= avgPixelIntensity.val[0];
+          int green= avgPixelIntensity.val[1];
+          int red = avgPixelIntensity.val[2];
 
 
       }
@@ -114,6 +127,7 @@ class ColorDetectController {
 	  void process() {
 
           result= cdetect->process(targetImage);
+
 	  }
 	  
 

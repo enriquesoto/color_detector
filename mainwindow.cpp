@@ -123,13 +123,16 @@ QString MainWindow::getFileName(QString path)
 
 }
 
-void MainWindow::on_sliderThreshold_sliderMoved(int position)
-{
-    ui->lblthresholdVal->setText(QString("%1").arg(position));
-}
-
 
 void MainWindow::on_sliderThreshold_valueChanged(int value)
 {
     ui->lblthresholdVal->setText(QString("%1").arg(value));
+
+    ColorDetectController::getInstance()->setColorDistanceThreshold(ui->sliderThreshold->value());
+    ColorDetectController::getInstance()->process();
+
+    cv::Mat resulting = ColorDetectController::getInstance()->getLastResult();
+    if (!resulting.empty())
+        displayMat(resulting,2);
+
 }
