@@ -18,7 +18,10 @@ class ColorDetectController {
 	// The image to be processed
     cv::Mat patternImage;
     cv::Mat targetImage;
-	cv::Mat result;
+    cv::Mat result;
+    float difference;
+
+
 	
   public:
 	ColorDetectController() { // private constructor
@@ -40,13 +43,13 @@ class ColorDetectController {
 	  }
 
 	  // Sets the color to be detected
-      void setTargetColor(unsigned char red, unsigned char green, unsigned char blue) {
+      void setInputColor(unsigned char red, unsigned char green, unsigned char blue) {
 
           cdetect->setPatternColor(red,green,blue);
 	  }
 
 	  // Gets the color to be detected
-	  void getTargetColor(unsigned char &red, unsigned char &green, unsigned char &blue) const {
+      void getInputColor(unsigned char &red, unsigned char &green, unsigned char &blue) const {
 
           cv::Vec3b color= cdetect->getPatternColor();
 
@@ -56,7 +59,7 @@ class ColorDetectController {
 	  }
 
 	  // Sets the input image. Reads it from file.
-	  bool setInputImage(std::string filename) {
+      bool setPatternImage(std::string filename) {
 
           patternImage= cv::imread(filename);
 
@@ -107,12 +110,12 @@ class ColorDetectController {
           int blue= avgPixelIntensity.val[0];
           int green= avgPixelIntensity.val[1];
           int red = avgPixelIntensity.val[2];
-
+          cdetect->setTargetColor(red,green,blue);
 
       }
 
 	  // Returns the current input image.
-      const cv::Mat getInputImage() const {
+      const cv::Mat getPatternImage() const {
 
           return patternImage;
 	  }
@@ -127,6 +130,7 @@ class ColorDetectController {
 	  void process() {
 
           result= cdetect->process(targetImage);
+          difference = cdetect->getDifference();
 
 	  }
 	  
@@ -136,6 +140,12 @@ class ColorDetectController {
 
 		  return result;
 	  }
+
+      // Get difference in percentage
+
+      const float getDifference() const {
+          return difference;
+      }
 
 	  // Deletes all processor objects created by the controller.
 	  ~ColorDetectController() {

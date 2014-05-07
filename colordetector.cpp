@@ -17,6 +17,8 @@
 
 #include "colordetector.h"
 #include <QDebug>
+
+#define MAXVALUEDIFFERENCE 254;
 	
 cv::Mat ColorDetector::process(const cv::Mat &image) {
 	
@@ -30,6 +32,12 @@ cv::Mat ColorDetector::process(const cv::Mat &image) {
 
 	  // Converting to Lab color space 
 	  cv::cvtColor(image, converted, CV_BGR2Lab);
+
+      difference = 100 - 100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
+
+      //Debug()<<"diferencia"<<difference;
+
+
 
 	  // get the iterators
 	  cv::Mat_<cv::Vec3b>::iterator it= converted.begin<cv::Vec3b>();

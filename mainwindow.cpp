@@ -31,7 +31,7 @@ void MainWindow::on_bttLoadImage1_clicked()
         displayMat(img_mat,1);
     }
     //Set Filename
-    ColorDetectController::getInstance()->setInputImage(fileName.toStdString());
+    ColorDetectController::getInstance()->setPatternImage(fileName.toStdString());
 
 
 
@@ -65,6 +65,9 @@ void MainWindow::on_bttnCompare_clicked()
     cv::Mat resulting = ColorDetectController::getInstance()->getLastResult();
     if (!resulting.empty())
         displayMat(resulting,2);
+
+
+
 }
 
 void MainWindow::displayMat(const Mat &image,int numImage)
@@ -130,9 +133,13 @@ void MainWindow::on_sliderThreshold_valueChanged(int value)
 
     ColorDetectController::getInstance()->setColorDistanceThreshold(ui->sliderThreshold->value());
     ColorDetectController::getInstance()->process();
+    float difference = ColorDetectController::getInstance()->getDifference();
 
     cv::Mat resulting = ColorDetectController::getInstance()->getLastResult();
     if (!resulting.empty())
         displayMat(resulting,2);
+
+    this->ui->lblDiference->setText(QString("%1").arg(difference));
+
 
 }
