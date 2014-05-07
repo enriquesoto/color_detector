@@ -7,6 +7,10 @@
 
 #include "colordetector.h"
 
+#define WIDTHONLOAD 1024
+#define HEIGHTONLOAD 768
+
+
 class ColorDetectController {
 
   private:
@@ -66,6 +70,7 @@ class ColorDetectController {
           if (!patternImage.data)
 			  return false;
           else{
+              cv::resize(patternImage,patternImage,cv::Size(WIDTHONLOAD,HEIGHTONLOAD));
               setAverageColorPatternImage(patternImage);
               return true;
           }
@@ -81,6 +86,7 @@ class ColorDetectController {
           if (!targetImage.data)
               return false;
           else{
+              cv::resize(targetImage,targetImage,cv::Size(WIDTHONLOAD,HEIGHTONLOAD));
               setAverageColorTargetImage(targetImage);
               return true;
           }

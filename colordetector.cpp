@@ -35,7 +35,11 @@ cv::Mat ColorDetector::process(const cv::Mat &image) {
 
       difference = 100 - 100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
 
-      //Debug()<<"diferencia"<<difference;
+
+
+      qDebug()<<"diferencia"<<100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
+
+      qDebug()<<"dccc"<<difference;
 
 
 

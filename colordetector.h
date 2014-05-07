@@ -48,9 +48,11 @@ class ColorDetector {
 	  // Computes the distance from target color.
       float getDistance(const cv::Vec3b& color) const {
 		 // return static_cast<int>(cv::norm<int,3>(cv::Vec3i(color[0]-target[0],color[1]-target[1],color[2]-target[2])));
-          return sqrt(pow(abs(color[0]-patternColor[0]),2)+
-                 pow(abs(color[1]-patternColor[1]),2)+
-                 pow(abs(color[2]-patternColor[2]),2));
+          return sqrt(
+                      pow(abs(color[0]-patternColor[0]),2)+
+                      pow(abs(color[1]-patternColor[1]),2)+
+                      pow(abs(color[2]-patternColor[2]),2)
+                  );
 	  }
 
   public:

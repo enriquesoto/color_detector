@@ -48,7 +48,7 @@ void MainWindow::on_bttnLoadImage2_clicked()
                                 &selectedFilter,
                                 options);
     if (!fileName.isEmpty()){
-        cv::Mat img_mat = cv::imread(fileName.toStdString(),2); //0 for grayscale
+        cv::Mat img_mat = cv::imread(fileName.toStdString(),1); //0 for grayscale
         displayMat(img_mat,2);
     }
     //Set Filename
@@ -61,7 +61,8 @@ void MainWindow::on_bttnCompare_clicked()
 
     ColorDetectController::getInstance()->setColorDistanceThreshold(ui->sliderThreshold->value());
     ColorDetectController::getInstance()->process();
-
+    float difference = ColorDetectController::getInstance()->getDifference();
+    this->ui->lblDiference->setText(QString("%1 %").arg(difference));
     cv::Mat resulting = ColorDetectController::getInstance()->getLastResult();
     if (!resulting.empty())
         displayMat(resulting,2);
@@ -139,7 +140,7 @@ void MainWindow::on_sliderThreshold_valueChanged(int value)
     if (!resulting.empty())
         displayMat(resulting,2);
 
-    this->ui->lblDiference->setText(QString("%1").arg(difference));
+    this->ui->lblDiference->setText(QString("%1 %").arg(difference));
 
 
 }
