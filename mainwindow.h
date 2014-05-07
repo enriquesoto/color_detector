@@ -42,6 +42,8 @@ private slots:
 
     void on_bttnCompare_clicked();
 
+    void on_sliderThreshold_valueChanged(int value);
+
 private:
     void displayMat(const cv::Mat& image, int numImage);
     Ui::MainWindow *ui;

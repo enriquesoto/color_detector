@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->sliderThreshold->setValue(0);
+    ui->lblthresholdVal->setText(QString("%1").arg(ui->sliderThreshold->value()));
+
 }
 
 MainWindow::~MainWindow()
@@ -28,7 +31,7 @@ void MainWindow::on_bttLoadImage1_clicked()
         displayMat(img_mat,1);
     }
     //Set Filename
-    ColorDetectController::getInstance()->setInputImage(fileName.toStdString());
+    ColorDetectController::getInstance()->setPatternImage(fileName.toStdString());
 
 
 
@@ -45,16 +48,26 @@ void MainWindow::on_bttnLoadImage2_clicked()
                                 &selectedFilter,
                                 options);
     if (!fileName.isEmpty()){
-        cv::Mat img_mat = cv::imread(fileName.toStdString(),2); //0 for grayscale
+        cv::Mat img_mat = cv::imread(fileName.toStdString(),1); //0 for grayscale
         displayMat(img_mat,2);
     }
     //Set Filename
-    ColorDetectController::getInstance()->setInputImage(fileName.toStdString());
+    ColorDetectController::getInstance()->setTargetImage(fileName.toStdString());
 
 }
 
 void MainWindow::on_bttnCompare_clicked()
 {
+
+    ColorDetectController::getInstance()->setColorDistanceThreshold(ui->sliderThreshold->value());
+    ColorDetectController::getInstance()->process();
+    float difference = ColorDetectController::getInstance()->getDifference();
+    this->ui->lblDiference->setText(QString("%1 %").arg(difference));
+    cv::Mat resulting = ColorDetectController::getInstance()->getLastResult();
+    if (!resulting.empty())
+        displayMat(resulting,2);
+
+
 
 }
 
@@ -111,5 +124,23 @@ QString MainWindow::getFileName(QString path)
 {
     int indexlastof = path.lastIndexOf("/");
     return path.left(indexlastof);
+
+}
+
+
+void MainWindow::on_sliderThreshold_valueChanged(int value)
+{
+    ui->lblthresholdVal->setText(QString("%1").arg(value));
+
+    ColorDetectController::getInstance()->setColorDistanceThreshold(ui->sliderThreshold->value());
+    ColorDetectController::getInstance()->process();
+    float difference = ColorDetectController::getInstance()->getDifference();
+
+    cv::Mat resulting = ColorDetectController::getInstance()->getLastResult();
+    if (!resulting.empty())
+        displayMat(resulting,2);
+
+    this->ui->lblDiference->setText(QString("%1 %").arg(difference));
+
 
 }

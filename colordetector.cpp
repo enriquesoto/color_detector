@@ -17,23 +17,37 @@
 
 #include "colordetector.h"
 #include <QDebug>
+
+#define MAXVALUEDIFFERENCE 254;
 	
 cv::Mat ColorDetector::process(const cv::Mat &image) {
 	
 	  // re-allocate binary map if necessary
 	  // same size as input image, but 1-channel
-      result.create(image.rows,image.cols,CV_8U);
-
+      //result.create(image.rows,image.cols,CV_8U);
+        result = image.clone();
 	  // re-allocate intermediate image if necessary
+        cv::imshow("resultado",result);
 	  converted.create(image.rows,image.cols,image.type());
 
 	  // Converting to Lab color space 
 	  cv::cvtColor(image, converted, CV_BGR2Lab);
 
+      difference = 100 - 100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
+
+
+
+      qDebug()<<"diferencia"<<100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
+
+      qDebug()<<"dccc"<<difference;
+
+
+
 	  // get the iterators
 	  cv::Mat_<cv::Vec3b>::iterator it= converted.begin<cv::Vec3b>();
 	  cv::Mat_<cv::Vec3b>::iterator itend= converted.end<cv::Vec3b>();
-      cv::Mat_<uchar>::iterator itout= result.begin<uchar>();
+      //cv::Mat_<uchar>::iterator itout= result.begin<uchar>();
+      cv::Mat_<cv::Vec3b>::iterator itout= result.begin<cv::Vec3b>();
 
 	  // for each pixel
 	  for ( ; it!= itend; ++it, ++itout) {
@@ -41,14 +55,16 @@ cv::Mat ColorDetector::process(const cv::Mat &image) {
 		// process each pixel ---------------------
 
 		  // compute distance from target color
-		  if (getDistance(*it)<minDist) {
+          if (getDistance(*it)>minDist) {
               //qDebug()<<"distancia:"<<getDistance(*it)<<endl;
               *itout= 255;
 
-		  } else {
+          }
 
-			  *itout= 0;
-		  }
+//          else {
+
+//			  *itout= 0;
+//		  }
 
         // end of pixel processing ----------------
 	  }

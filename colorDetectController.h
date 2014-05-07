@@ -3,8 +3,13 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <vector>
 
 #include "colordetector.h"
+
+#define WIDTHONLOAD 1024
+#define HEIGHTONLOAD 768
+
 
 class ColorDetectController {
 
@@ -15,8 +20,12 @@ class ColorDetectController {
 	ColorDetector *cdetect;
 
 	// The image to be processed
-	cv::Mat image;
-	cv::Mat result;
+    cv::Mat patternImage;
+    cv::Mat targetImage;
+    cv::Mat result;
+    float difference;
+
+
 	
   public:
 	ColorDetectController() { // private constructor
@@ -38,15 +47,15 @@ class ColorDetectController {
 	  }
 
 	  // Sets the color to be detected
-	  void setTargetColor(unsigned char red, unsigned char green, unsigned char blue) {
+      void setInputColor(unsigned char red, unsigned char green, unsigned char blue) {
 
-		  cdetect->setTargetColor(red,green,blue);
+          cdetect->setPatternColor(red,green,blue);
 	  }
 
 	  // Gets the color to be detected
-	  void getTargetColor(unsigned char &red, unsigned char &green, unsigned char &blue) const {
+      void getInputColor(unsigned char &red, unsigned char &green, unsigned char &blue) const {
 
-		  cv::Vec3b color= cdetect->getTargetColor();
+          cv::Vec3b color= cdetect->getPatternColor();
 
 		  red= color[2];
 		  green= color[1];
@@ -54,26 +63,81 @@ class ColorDetectController {
 	  }
 
 	  // Sets the input image. Reads it from file.
-	  bool setInputImage(std::string filename) {
+      bool setPatternImage(std::string filename) {
 
-		  image= cv::imread(filename);
+          patternImage= cv::imread(filename);
 
-		  if (!image.data)
+          if (!patternImage.data)
 			  return false;
-		  else
-			  return true;
+          else{
+              cv::resize(patternImage,patternImage,cv::Size(WIDTHONLOAD,HEIGHTONLOAD));
+              setAverageColorPatternImage(patternImage);
+              return true;
+          }
+
 	  }
+
+      bool setTargetImage(std::string filename){
+
+          targetImage= cv::imread(filename);
+
+
+
+          if (!targetImage.data)
+              return false;
+          else{
+              cv::resize(targetImage,targetImage,cv::Size(WIDTHONLOAD,HEIGHTONLOAD));
+              setAverageColorTargetImage(targetImage);
+              return true;
+          }
+
+
+      }
+
+      //setAverageColor from Pattern Image Left Side!
+
+      void setAverageColorPatternImage(const cv::Mat &image){
+
+        cv::Scalar avgPixelIntensity = cv::mean(image);
+
+        int blue= avgPixelIntensity.val[0];
+        int green= avgPixelIntensity.val[1];
+        int red = avgPixelIntensity.val[2];
+
+
+        cdetect->setPatternColor(red,green,blue);
+
+
+      }
+
+
+      void setAverageColorTargetImage(const cv::Mat &image){
+          cv::Scalar avgPixelIntensity = cv::mean(image);
+          int blue= avgPixelIntensity.val[0];
+          int green= avgPixelIntensity.val[1];
+          int red = avgPixelIntensity.val[2];
+          cdetect->setTargetColor(red,green,blue);
+
+      }
 
 	  // Returns the current input image.
-	  const cv::Mat getInputImage() const {
+      const cv::Mat getPatternImage() const {
 
-		  return image;
+          return patternImage;
 	  }
+
+      const cv::Mat getTargetImage() const {
+
+          return targetImage;
+
+      }
 
 	  // Performs image processing.
 	  void process() {
 
-		  result= cdetect->process(image);
+          result= cdetect->process(targetImage);
+          difference = cdetect->getDifference();
+
 	  }
 	  
 
@@ -82,6 +146,12 @@ class ColorDetectController {
 
 		  return result;
 	  }
+
+      // Get difference in percentage
+
+      const float getDifference() const {
+          return difference;
+      }
 
 	  // Deletes all processor objects created by the controller.
 	  ~ColorDetectController() {

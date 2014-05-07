@@ -30,8 +30,13 @@ class ColorDetector {
 	  // minimum acceptable distance
 	  int minDist; 
 
-	  // target color
-	  cv::Vec3b target; 
+      //difference in %
+      float difference;
+
+      // pattern and target color
+      cv::Vec3b patternColor;
+      cv::Vec3b targetColor;
+
 
 	  // image containing resulting binary map
 	  cv::Mat result;
@@ -43,18 +48,23 @@ class ColorDetector {
 	  // Computes the distance from target color.
       float getDistance(const cv::Vec3b& color) const {
 		 // return static_cast<int>(cv::norm<int,3>(cv::Vec3i(color[0]-target[0],color[1]-target[1],color[2]-target[2])));
-          return sqrt(pow(abs(color[0]-target[0]),2)+
-                 pow(abs(color[1]-target[1]),2)+
-                 pow(abs(color[2]-target[2]),2));
+          return sqrt(
+                      pow(abs(color[0]-patternColor[0]),2)+
+                      pow(abs(color[1]-patternColor[1]),2)+
+                      pow(abs(color[2]-patternColor[2]),2)
+                  );
 	  }
 
   public:
+
+
+
 
 	  // empty constructor
 	  ColorDetector() : minDist(100) { 
 
 		  // default parameter initialization here
-		  target[0]= target[1]= target[2]= 0;
+          patternColor[0]= patternColor[1]= patternColor[2]= 0;
 	  }
 
 	  // Getters and setters
@@ -76,7 +86,7 @@ class ColorDetector {
 	  }
 
 	  // Sets the color to be detected
-	  void setTargetColor(unsigned char red, unsigned char green, unsigned char blue) {
+      void setPatternColor(unsigned char red, unsigned char green, unsigned char blue) {
 
 		  cv::Mat tmp(1,1,CV_8UC3);
           tmp.at<cv::Vec3b>(0,0)[0]= blue;
@@ -86,11 +96,11 @@ class ColorDetector {
   	      // Converting the target to Lab color space 
 	      cv::cvtColor(tmp, tmp, CV_BGR2Lab);
 
-          target= tmp.at<cv::Vec3b>(0,0);
+          patternColor= tmp.at<cv::Vec3b>(0,0);
 	  }
 
 	  // Sets the color to be detected
-	  void setTargetColor(cv::Vec3b color) {
+      void setPatternColor(cv::Vec3b color) {
 
 		  cv::Mat tmp(1,1,CV_8UC3);
           tmp.at<cv::Vec3b>(0,0)= color;
@@ -98,14 +108,31 @@ class ColorDetector {
   	      // Converting the target to Lab color space 
 	      cv::cvtColor(tmp, tmp, CV_BGR2Lab);
 
-          target= tmp.at<cv::Vec3b>(0,0);
+          patternColor= tmp.at<cv::Vec3b>(0,0);
 	  }
+
+      void setTargetColor(unsigned char red, unsigned char green, unsigned char blue){
+
+          cv::Mat tmp(1,1,CV_8UC3);
+          tmp.at<cv::Vec3b>(0,0)[0]= blue;
+          tmp.at<cv::Vec3b>(0,0)[1]= green;
+          tmp.at<cv::Vec3b>(0,0)[2]= red;
+
+          // Converting the target to Lab color space
+          cv::cvtColor(tmp, tmp, CV_BGR2Lab);
+          targetColor= tmp.at<cv::Vec3b>(0,0);
+
+      }
 
 	  // Gets the color to be detected
-	  cv::Vec3b getTargetColor() const {
+      cv::Vec3b getPatternColor() const {
 
-		  return target;
+          return patternColor;
 	  }
+      //get difference in %
+      int getDifference() const {
+        return difference;
+      }
 
 	  // Processes the image. Returns a 1-channel binary image.
 	  cv::Mat process(const cv::Mat &image);
