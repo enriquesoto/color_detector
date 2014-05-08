@@ -65,6 +65,11 @@ border: 1px solid #000;</string>
          </item>
          <item>
           <widget class="QLabel" name="lblImage1path">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -92,7 +97,7 @@ border: 1px solid #000;</string>
             </size>
            </property>
            <property name="text">
-            <string>Cargar Imagen</string>
+            <string>Cargar Imagen 1</string>
            </property>
           </widget>
          </item>
@@ -130,7 +135,7 @@ border: 1px solid #000;</string>
             </font>
            </property>
            <property name="text">
-            <string>Imagen 2</string>
+            <string>Imagen 2:</string>
            </property>
           </widget>
          </item>
@@ -163,7 +168,7 @@ border: 1px solid #000;</string>
             </size>
            </property>
            <property name="text">
-            <string>Cargar Imagen</string>
+            <string>Cargar Imagen 2</string>
            </property>
           </widget>
          </item>
@@ -330,7 +335,7 @@ border: 1px solid #000000</string>
          <item row="0" column="0">
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Similitu(%):</string>
+            <string>Similitud (%):</string>
            </property>
           </widget>
          </item>
@@ -373,12 +378,6 @@ border: 1px solid #000;</string>
      </widget>
     </item>
    </layout>
-   <zorder>frame</zorder>
-   <zorder>groupBox</zorder>
-   <zorder>groupBox_2</zorder>
-   <zorder>groupBox_3</zorder>
-   <zorder>groupBox_4</zorder>
-   <zorder>bttnCompare</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

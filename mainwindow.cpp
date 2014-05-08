@@ -28,6 +28,7 @@ void MainWindow::on_bttLoadImage1_clicked()
                                 options);
     if (!fileName.isEmpty()){
         cv::Mat img_mat = cv::imread(fileName.toStdString(),1); //0 for grayscale
+        ui->lblImage1path->setText(getFileName(fileName));
         displayMat(img_mat,1);
     }
     //Set Filename
@@ -49,6 +50,7 @@ void MainWindow::on_bttnLoadImage2_clicked()
                                 options);
     if (!fileName.isEmpty()){
         cv::Mat img_mat = cv::imread(fileName.toStdString(),1); //0 for grayscale
+        ui->lblImage2path->setText(getFileName(fileName));
         displayMat(img_mat,2);
     }
     //Set Filename
@@ -123,7 +125,7 @@ Mat MainWindow::QImage2Mat(const QImage &src)
 QString MainWindow::getFileName(QString path)
 {
     int indexlastof = path.lastIndexOf("/");
-    return path.left(indexlastof);
+    return path.remove(0,indexlastof+1);
 
 }
 

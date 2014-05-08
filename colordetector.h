@@ -27,8 +27,8 @@ class ColorDetector {
 
   private:
 
-	  // minimum acceptable distance
-	  int minDist; 
+      // maximun acceptable distance
+      int maxDist;
 
       //difference in %
       float difference;
@@ -54,18 +54,21 @@ class ColorDetector {
                       pow(abs(color[2]-patternColor[2]),2)
                   );
 	  }
+      void paint(cv::Vec3b& color);
+
+
 
   public:
 
-
-
-
 	  // empty constructor
-	  ColorDetector() : minDist(100) { 
+      ColorDetector() : maxDist(100) {
 
 		  // default parameter initialization here
           patternColor[0]= patternColor[1]= patternColor[2]= 0;
 	  }
+
+
+
 
 	  // Getters and setters
 
@@ -76,13 +79,13 @@ class ColorDetector {
 
 		  if (distance<0)
 			  distance=0;
-		  minDist= distance;
+          maxDist= distance;
 	  }
 
 	  // Gets the color distance threshold
 	  int getColorDistanceThreshold() const {
 
-		  return minDist;
+          return maxDist;
 	  }
 
 	  // Sets the color to be detected

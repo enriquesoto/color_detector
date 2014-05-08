@@ -19,7 +19,12 @@
 #include <QDebug>
 
 #define MAXVALUEDIFFERENCE 254;
-	
+
+void ColorDetector::paint(cv::Vec3b &color)
+{
+    color[1] = 255;
+}
+
 cv::Mat ColorDetector::process(const cv::Mat &image) {
 	
 	  // re-allocate binary map if necessary
@@ -37,11 +42,11 @@ cv::Mat ColorDetector::process(const cv::Mat &image) {
 
 
 
-      qDebug()<<"diferencia"<<100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
+//      qDebug()<<"diferencia"<<100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
 
-      qDebug()<<"dccc"<<difference;
+//      qDebug()<<"dccc"<<difference;
 
-
+      float countDifference = 0;
 
 	  // get the iterators
 	  cv::Mat_<cv::Vec3b>::iterator it= converted.begin<cv::Vec3b>();
@@ -55,20 +60,25 @@ cv::Mat ColorDetector::process(const cv::Mat &image) {
 		// process each pixel ---------------------
 
 		  // compute distance from target color
-          if (getDistance(*it)>minDist) {
+          if (getDistance(*it)>maxDist) {
               //qDebug()<<"distancia:"<<getDistance(*it)<<endl;
-              *itout= 255;
-
+              paint(*itout);
+              countDifference++;
           }
 
 //          else {
-
 //			  *itout= 0;
 //		  }
 
         // end of pixel processing ----------------
-	  }
-
+      }
+      qDebug()<<countDifference;
+      int totalPixels = image.rows*image.cols;
+      qDebug()<<"pixeles totales " << image.rows*image.cols;
+      double division = countDifference/totalPixels*100;
+      qDebug()<<"division " << division;
+      difference= 100 - countDifference/totalPixels*100;
       return result;
 }
+
 
