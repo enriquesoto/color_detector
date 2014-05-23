@@ -35,6 +35,7 @@ class ColorDetector {
 
       // pattern and target color
       cv::Vec3b patternColor;
+      int redColor=0,greenColor=0,blueColor=0;
       cv::Vec3b targetColor;
 
 
@@ -65,6 +66,7 @@ class ColorDetector {
 
 		  // default parameter initialization here
           patternColor[0]= patternColor[1]= patternColor[2]= 0;
+
 	  }
 
 
@@ -100,6 +102,10 @@ class ColorDetector {
 	      cv::cvtColor(tmp, tmp, CV_BGR2Lab);
 
           patternColor= tmp.at<cv::Vec3b>(0,0);
+
+          calculeOppositeColor();
+
+
 	  }
 
 	  // Sets the color to be detected
@@ -139,6 +145,7 @@ class ColorDetector {
 
 	  // Processes the image. Returns a 1-channel binary image.
 	  cv::Mat process(const cv::Mat &image);
+      void calculeOppositeColor();
 };
 
 

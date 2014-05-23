@@ -22,8 +22,12 @@
 
 void ColorDetector::paint(cv::Vec3b &color)
 {
-    color[1] = 255;
+    color[0]= blueColor;
+    color[1]= greenColor;
+    color[2]= redColor;
+
 }
+
 
 cv::Mat ColorDetector::process(const cv::Mat &image) {
 	
@@ -38,7 +42,7 @@ cv::Mat ColorDetector::process(const cv::Mat &image) {
 	  // Converting to Lab color space 
 	  cv::cvtColor(image, converted, CV_BGR2Lab);
 
-      difference = 100 - 100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
+      //difference = 100 - 100*getDistance(targetColor)/MAXVALUEDIFFERENCE;
 
 
 
@@ -80,5 +84,33 @@ cv::Mat ColorDetector::process(const cv::Mat &image) {
       difference= 100 - countDifference/totalPixels*100;
       return result;
 }
+
+void ColorDetector::calculeOppositeColor() //calcular color opuesto para pintar panel ! :D
+{
+
+    int threshold=150;
+    cv::Vec3b redLab,greenLab,bluelab;
+    redLab[0] = 54; redLab[1] = 209 ; redLab[2]=198;
+    greenLab[0] = 224; greenLab[1] = 42; greenLab[3] = 211;
+    bluelab[0] = 29; bluelab[1] = 196; bluelab[3] = 11;
+    //green[0] = 0; green[1] = 255 ; green[2] = 0;
+    int MAX = 255;
+    redColor = greenColor = blueColor =0;
+
+    cv::Mat tmp(1,1,CV_8UC3);
+    tmp.at<cv::Vec3b>(0,0) = patternColor;
+    cv::cvtColor(tmp,tmp,CV_Lab2BGR);
+    cv::imshow("xD",tmp);
+    qDebug()<<"valor l"<<tmp.at<cv::Vec3b>(0,0)[0]<<"valor a"<<tmp.at<cv::Vec3b>(0,0)[1]<<"valor b"<<tmp.at<cv::Vec3b>(0,0)[2];
+    if(getDistance(redLab)>threshold){
+        redColor = MAX;
+    }else
+        if(getDistance(greenLab)<threshold){
+            greenColor=MAX; //green
+        }else
+            blueColor=MAX;
+
+}
+
 
 
